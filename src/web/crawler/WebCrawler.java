@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -61,6 +63,18 @@ public class WebCrawler {
         } while (this.pagesVisited.contains(nextUrl) || !(nextUrl.toLowerCase().contains(basePrefix.toLowerCase())));
         this.pagesVisited.add(nextUrl);
         return nextUrl;
+    }
+
+    public boolean hasHashTag(String url) {
+        int index = url.lastIndexOf("#");
+        if(index == -1) {
+            return false;
+        } else {
+            Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(url.substring(index+1));
+            System.out.println(url.substring(index+1) + "   "+  (index + 1));
+            return !m.find();
+        }
     }
     
     public static void main(String[] args) {
