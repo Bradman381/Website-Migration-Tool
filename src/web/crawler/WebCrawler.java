@@ -51,7 +51,7 @@ public class WebCrawler {
         JFrame prompt = new JFrame();
         JOptionPane.showMessageDialog(prompt,
             "Web Crawl Completed\nExported " + this.pagesVisited.size() + " web page(s).",
-            "Web Crawler",
+            "Website Migration Tool",
             JOptionPane.PLAIN_MESSAGE);
         System.out.println("\n*******DONE******** Visited " + this.pagesVisited.size() + " web page(s).");
     }
@@ -81,15 +81,15 @@ public class WebCrawler {
         // Creating Window Frame for selecting directory
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
-        JFrame frame = new JFrame("Web Crawler");
+        JFrame frame = new JFrame("Website Migration Tool");
         frame.setLayout(new FlowLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton button = new JButton("Select Directory");
         button.addActionListener((ActionEvent ae) -> {
-            //Opens file exporer/finder to select directory
+            //Opens file explorer/finder to select directory
             JFileChooser chooser = new JFileChooser();
             chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-            chooser.setDialogTitle("select folder");
+            chooser.setDialogTitle("Select folder");
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             chooser.setAcceptAllFileFilterUsed(false);
             int returnValue = chooser.showOpenDialog(null);
