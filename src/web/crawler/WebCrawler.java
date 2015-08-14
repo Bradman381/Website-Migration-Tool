@@ -73,6 +73,33 @@ public class WebCrawler {
 
     private void addUrls() {
         //Implement adding url data to pagesToVisit
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(urlFileDir));
+            String line;
+            while((line = br.readLine()) != null) {
+                int firstComma = line.indexOf(",");
+                if(firstComma > 0) {
+                    String url = line.substring(0,firstComma);
+                    if(url.startsWith("http")) {
+                        System.out.println("Adding " + url + " to pagesToVisit.");
+                        pagesToVisit.add(url);
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     
     public static void main(String[] args) {
