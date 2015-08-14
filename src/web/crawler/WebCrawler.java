@@ -44,8 +44,8 @@ public class WebCrawler {
         }
         JFrame prompt = new JFrame();
         JOptionPane.showMessageDialog(prompt,
-            "Web Crawl Completed\nExported " + this.pagesVisited.size() + " web page(s).",
-            "Web Crawler",
+            "Website Migration Completed\nExported " + this.pagesVisited.size() + " web page(s).",
+            "Website Migration Tool",
             JOptionPane.PLAIN_MESSAGE);
         System.out.println("\n*******DONE******** Visited " + this.pagesVisited.size() + " web page(s).");
     }
@@ -106,7 +106,7 @@ public class WebCrawler {
         // Creating Window Frame for selecting directory
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
-        JFrame frame = new JFrame("Web Crawler");
+        JFrame frame = new JFrame("Website Migration Tool");
         frame.setLayout(new FlowLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton urlFileBtn = new JButton("Select Url Spreadsheet");
@@ -135,7 +135,7 @@ public class WebCrawler {
                 chosenDirectory = chooser.getSelectedFile().getPath();
             }
         });
-        JButton run = new JButton("Run Export");
+        JButton run = new JButton("Run export");
         run.addActionListener((ActionEvent ae) -> {
             if(urlFileDir != null && chosenDirectory != null) {
                 WebCrawler crawler = new WebCrawler(chosenDirectory);
@@ -148,7 +148,7 @@ public class WebCrawler {
                 JFrame prompt = new JFrame();
                 JOptionPane.showMessageDialog(prompt,
                         "Please selected the Spreadsheet file and save directory before continuing.",
-                        "Migration Tool",
+                        "Website Migration Tool",
                         JOptionPane.PLAIN_MESSAGE);
             }
         });
