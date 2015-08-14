@@ -24,7 +24,6 @@ import java.io.PrintWriter;
  */
 public class Page {
     private static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36";
-    private List<String> links = new LinkedList<String>();
     private Document htmlDocument;
     private static int nId = 1;
     private static int nFolderIndex = 1;
@@ -124,9 +123,5 @@ public class Page {
         writer.println(toPrettyFormat(jsonContent.toJSONString()));
         writer.close();
         return true;
-    }
-    
-    public List<String> getLinks() {
-        return this.links;
     }
 }

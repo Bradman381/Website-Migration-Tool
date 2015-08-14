@@ -2,8 +2,7 @@ package web.crawler;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +24,8 @@ public class WebCrawler {
     private List<String> pagesToVisit = new LinkedList<String>();
     private String directory;
     private String basePrefix;
+    protected static String urlFileDir;
+    protected static String chosenDirectory;
     
     public WebCrawler (String dir) {
         directory = dir;
@@ -32,6 +33,7 @@ public class WebCrawler {
     
     public void search(String domain) throws IOException {
         basePrefix = domain;
+        addUrls();
         while(!(this.pagesToVisit.isEmpty())) {
             String currentUrl;
             Page page = new Page(directory);
@@ -39,8 +41,6 @@ public class WebCrawler {
             if(page.crawl(currentUrl)) {
                 page.getContent();
             }
-            
-            this.pagesToVisit.addAll(page.getLinks());
         }
         JFrame prompt = new JFrame();
         JOptionPane.showMessageDialog(prompt,
@@ -73,7 +73,6 @@ public class WebCrawler {
 
     private void addUrls() {
         //Implement adding url data to pagesToVisit
-
     }
     
     public static void main(String[] args) {
@@ -83,27 +82,52 @@ public class WebCrawler {
         JFrame frame = new JFrame("Web Crawler");
         frame.setLayout(new FlowLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JButton button = new JButton("Select Directory");
-        button.addActionListener((ActionEvent ae) -> {
+        JButton urlFileBtn = new JButton("Select Url Spreadsheet");
+        urlFileBtn.addActionListener((ActionEvent ae) -> {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+            chooser.setDialogTitle("Select CSV file");
+            chooser.setAcceptAllFileFilterUsed(false);
+            int returnValue = chooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                //After selected do this...
+                urlFileDir = chooser.getSelectedFile().getPath();
+            }
+        });
+        JButton dirBtn = new JButton("Select Directory");
+        dirBtn.addActionListener((ActionEvent ae) -> {
             //Opens file explorer/finder to select directory
             JFileChooser chooser = new JFileChooser();
             chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-            chooser.setDialogTitle("select folder");
+            chooser.setDialogTitle("Select folder");
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             chooser.setAcceptAllFileFilterUsed(false);
             int returnValue = chooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 //After selected do this...
-                String chosenDirectory = chooser.getSelectedFile().getPath();
+                chosenDirectory = chooser.getSelectedFile().getPath();
+            }
+        });
+        JButton run = new JButton("Run Export");
+        run.addActionListener((ActionEvent ae) -> {
+            if(urlFileDir != null && chosenDirectory != null) {
                 WebCrawler crawler = new WebCrawler(chosenDirectory);
                 try {
                     crawler.search("sacog.org");
                 } catch (IOException ex) {
                     Logger.getLogger(WebCrawler.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else {
+                JFrame prompt = new JFrame();
+                JOptionPane.showMessageDialog(prompt,
+                        "Please selected the Spreadsheet file and save directory before continuing.",
+                        "Migration Tool",
+                        JOptionPane.PLAIN_MESSAGE);
             }
         });
-        frame.add(button);
+        frame.add(urlFileBtn);
+        frame.add(dirBtn);
+        frame.add(run);
         frame.pack();
         frame.setVisible(true);
     }
