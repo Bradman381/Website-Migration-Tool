@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package web.crawler;
 
 import java.io.IOException;
@@ -52,11 +47,6 @@ public class Page {
             if(connection.response().contentType() == null || !connection.response().contentType().contains("text/html")) {
                 System.out.println("**Failure** Retrieved something other than HTML");
                 return false;
-            }
-            Elements linksOnPage = htmlDocument.select("a[href]");
-            System.out.println("Found (" + linksOnPage.size() + ") links");
-            for(Element link : linksOnPage) {
-                this.links.add(link.absUrl("href"));
             }
             uri = url;
             return true;
@@ -119,7 +109,7 @@ public class Page {
         return prettyJson;
     }
     
-    private boolean createFile () throws IOException {
+    private boolean createFile() throws IOException {
         File file = new File(dir + "/node" + nFolderIndex + "/" + nId + ".json");
         if(file.getParentFile().exists()) {
             file.createNewFile();

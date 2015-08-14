@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package web.crawler;
 
 import java.awt.FlowLayout;
@@ -35,9 +30,8 @@ public class WebCrawler {
         directory = dir;
     }
     
-    public void search(String url, String domain) throws IOException {
+    public void search(String domain) throws IOException {
         basePrefix = domain;
-        this.pagesToVisit.add(url);
         while(!(this.pagesToVisit.isEmpty())) {
             String currentUrl;
             Page page = new Page(directory);
@@ -65,7 +59,7 @@ public class WebCrawler {
         return nextUrl;
     }
 
-    public boolean hasHashTag(String url) {
+    private boolean hasHashTag(String url) {
         int index = url.lastIndexOf("#");
         if(index == -1) {
             return false;
@@ -75,6 +69,11 @@ public class WebCrawler {
             System.out.println(url.substring(index+1) + "   "+  (index + 1));
             return !m.find();
         }
+    }
+
+    private void addUrls() {
+        //Implement adding url data to pagesToVisit
+
     }
     
     public static void main(String[] args) {
@@ -86,7 +85,7 @@ public class WebCrawler {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton button = new JButton("Select Directory");
         button.addActionListener((ActionEvent ae) -> {
-            //Opens file exporer/finder to select directory
+            //Opens file explorer/finder to select directory
             JFileChooser chooser = new JFileChooser();
             chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
             chooser.setDialogTitle("select folder");
@@ -98,7 +97,7 @@ public class WebCrawler {
                 String chosenDirectory = chooser.getSelectedFile().getPath();
                 WebCrawler crawler = new WebCrawler(chosenDirectory);
                 try {
-                    crawler.search("http://www.sacog.org/", "sacog.org");
+                    crawler.search("sacog.org");
                 } catch (IOException ex) {
                     Logger.getLogger(WebCrawler.class.getName()).log(Level.SEVERE, null, ex);
                 }
