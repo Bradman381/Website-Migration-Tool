@@ -109,7 +109,8 @@ public class Page {
     }
     
     private boolean createFile() throws IOException {
-        File file = new File(dir + "/node" + nFolderIndex + "/" + nId + ".json");
+        String nodeFolder = String.format("/nodes_%03d", nFolderIndex);
+        File file = new File(dir + nodeFolder + "/" + nId + ".json");
         if(file.getParentFile().exists()) {
             file.createNewFile();
         } else {
